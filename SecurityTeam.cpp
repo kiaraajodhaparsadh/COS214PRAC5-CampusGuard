@@ -42,9 +42,21 @@ void SecurityTeam::displayStatus()
 
 ComponentStateMemento *SecurityTeam::createMemento()
 {
-    return nullptr;
+    return new ComponentStateMemento(componentID, status, std::string location, weaponsDeployed);
 }
 
 void SecurityTeam::restore(ComponentStateMemento *memento)
 {
+    if (!memento)
+    {
+        return;
+    }
+
+    this->componentID = memento->componentID;
+    this->status = memento->status;
+
+    this->location = memento->location;
+    this->weaponsDeployed = memento->weaponsDeployed;
+
+    std::cout << "[SecurityTeam: " + componentID + " ] Reverted to previous state successfully. Location, status and weaponsDeployed updated.\n";
 }

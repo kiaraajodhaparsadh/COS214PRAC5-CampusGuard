@@ -72,7 +72,19 @@ void FacilitiesControlService::displayStatus()
 
 ComponentStateMemento *FacilitiesControlService::createMemento()
 {
-    return nullptr;
+    return new ComponentStateMemento(this->componentID, this->status, this->facilityDoors);
 }
 
-void FacilitiesControlService::restore(ComponentStateMemento *memento) {}
+void FacilitiesControlService::restore(ComponentStateMemento *memento)
+{
+    if (!memento)
+    {
+        return;
+    }
+
+    this->componentID = memento->componentID;
+    this->status = memento->status;
+    this->facilityDoors = memento->facilityDoors;
+
+    std::cout << "[FacilitiesControlService: " + componentID + " ] Reverted to previous state successfully. The previous state of the doors is restored. \n";
+}

@@ -63,5 +63,23 @@ void CommunicationService::displayStatus()
     std::cout << MAGENTA << "======================================" << RESET << "\n\n";
 }
 
-ComponentStateMemento *CommunicationService::createMemento() { return nullptr; }
-void CommunicationService::restore(ComponentStateMemento *memento) {}
+ComponentStateMemento *CommunicationService::createMemento()
+{
+    return new ComponentStateMemento(componentID, status, broadcastLog);
+}
+void CommunicationService::restore(ComponentStateMemento *memento)
+{
+
+    if (!memento)
+    {
+        return;
+    }
+
+    this->componentID = memento->componentID;
+    this->status = memento->status;
+
+    this->broadcastLog = memento->broadcastLog;
+
+    std::cout
+        << "[CommunicationService: " + componentID + " ] Reverted to previous state successfully. Broadcast logs updated.\n";
+}

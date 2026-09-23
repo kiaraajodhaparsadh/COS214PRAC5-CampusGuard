@@ -90,9 +90,23 @@ void MedicTeam::displayStatus()
 }
 ComponentStateMemento *MedicTeam::createMemento()
 {
-    return nullptr;
+    return new ComponentStateMemento(componentID, status, location, medicsAvailable, triageLevel);
 }
 
 void MedicTeam::restore(ComponentStateMemento *memento)
 {
+    if (!memento)
+    {
+        return;
+    }
+
+    this->componentID = memento->componentID;
+    this->status = memento->status;
+    this->location = memento->location;
+
+    this->medicsAvailable = memento->medicsAvailable;
+    this->triageLevel = memento->triageLevel;
+
+    std::cout
+        << "[MedicTeam: " + componentID + " ] Reverted to previous state successfully. Location, status medics available and triage level updated.\n";
 }

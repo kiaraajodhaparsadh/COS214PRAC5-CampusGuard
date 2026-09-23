@@ -88,11 +88,11 @@ void MedicTeam::displayStatus()
     std::cout << RED << " > Triage Level:     " << RESET << triageLevel << "\n";
     std::cout << RED << "=============================" << RESET << "\n\n";
 }
-ComponentStateMemento *SecurityTeam::createMemento()
+ComponentStateMemento *MedicTeam::createMemento()
 {
     return nullptr;
 }
 
-void SecurityTeam::restore(ComponentStateMemento *memento)
+void MedicTeam::restore(ComponentStateMemento *memento)
 {
 }

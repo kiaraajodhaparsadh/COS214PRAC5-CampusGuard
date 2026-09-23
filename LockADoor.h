@@ -13,13 +13,12 @@ class LockADoor : public ResponseAction
 protected:
     FacilitiesControlService *receiver;
     std::string location;
+    ComponentStateMemento *previousState;
 
 public:
-    LockADoor(FacilitiesControlService *receiver, std::string loc)
-        : receiver(receiver), location(loc) {}
+    LockADoor(FacilitiesControlService *receiver, std::string loc);
+    ~LockADoor() override;
 
-    void execute() override
-    {
-        receiver->dispatch(location); // call a specific method
-    }
+    void execute() override;
+    void undo() override;
 };

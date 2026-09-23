@@ -4,7 +4,8 @@
 #include "ResponseAction.h" // command interface
 #include <string>
 
-class ResponseComponent; // recievers
+class MedicTeam;
+class ComponentStateMemento;
 
 class DispatchMedic : public ResponseAction
 {
@@ -12,13 +13,12 @@ private:
     MedicTeam *receiver; // Point directly to MedicTeam instead of the base class
     std::string location;
     int triageLevel;
+    ComponentStateMemento *previousState;
 
 public:
-    DispatchMedic(MedicTeam *receiver, std::string loc, int sev)
-        : receiver(receiver), location(loc), triageLevel(sev) {}
+    DispatchMedic(MedicTeam *receiver, std::string loc, int sev);
+    ~DispatchMedic() override;
 
-    void execute() override
-    {
-        receiver->dispatch(location); // call a specific MedicTeam method
-    }
+    void execute() override;
+    void undo() override;
 };

@@ -4,17 +4,20 @@
 #include "ResponseAction.h" // command interface
 #include <string>
 
-class ResponseComponent; // recievers
+class SecurityTeam;
+class ComponentStateMemento;
 
 class DispatchSecurity : public ResponseAction
 {
 private:
     SecurityTeam *receiver;
     std::string location;
+    ComponentStateMemento *previousState;
 
 public:
-    DispatchSecurity(ResponseComponent *receiver, std::string location);
-    ~DispatchSecurity() override = default;
+    DispatchSecurity(SecurityTeam *receiver, std::string location);
+    ~DispatchSecurity() override;
 
     void execute() override;
+    void undo() override;
 };

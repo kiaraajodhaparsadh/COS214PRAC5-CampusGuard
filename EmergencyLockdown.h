@@ -11,14 +11,12 @@ class EmergencyLockdown : public ResponseAction
 {
 
 protected:
-    FacilitiesControlService *receiver; // Point directly to MedicTeam instead of the base
-
+    FacilitiesControlService *receiver;   // Point directly to MedicTeam instead of the base
+    ComponentStateMemento *previousState; // stores the snapshot
 public:
-    EmergencyLockdown(FacilitiesControlService *receiver)
-        : receiver(receiver) {}
+    EmergencyLockdown(FacilitiesControlService *receiver);
+    ~EmergencyLockdown() override;
 
-    void execute() override
-    {
-        receiver->lockdownDoors(); // call a specific method
-    }
+    void execute() override;
+    void undo() override;
 };

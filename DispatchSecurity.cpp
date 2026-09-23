@@ -1,12 +1,24 @@
 #include "DispatchSecurity.h"
-#include "ResponseComponent.h" // Needed so we can call receiver->dispatch()
+#include "SecurityTeam.h"
 
-// Constructor implementation
 DispatchSecurity::DispatchSecurity(SecurityTeam *receiver, std::string location)
-    : receiver(receiver), location(location) {}
+    : receiver(receiver), location(location), previousState(nullptr) {}
+
+DispatchSecurity::~DispatchSecurity()
+{
+    delete previousState;
+}
 
 void DispatchSecurity::execute()
 {
-    // Now location is available to pass to the receiver
+    previousState = receiver->createMemento();
     receiver->dispatch(location);
+}
+
+void DispatchSecurity::undo()
+{
+    if (previousState != nullptr)
+    {
+        receiver->restore(previousState);
+    }
 }

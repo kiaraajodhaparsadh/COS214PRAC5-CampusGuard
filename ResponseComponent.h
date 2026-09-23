@@ -7,7 +7,6 @@ class ComponentStateMemento; // memento
 enum class OperationalStatus
 {
     Idle,
-    EnRoute,
     Active,
     Offline
 };

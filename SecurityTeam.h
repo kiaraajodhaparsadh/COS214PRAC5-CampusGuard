@@ -7,13 +7,14 @@
 class SecurityTeam : public ResponseComponent
 {
 private:
-    int guardsAvailable;
+    // int guardsAvailable; removed this bc not needed
     bool weaponsDeployed;
+    std::string location;
 
 public:
     // passes mediator and ID up to the base class, and initializes personnel
-    SecurityTeam(ResponseCoordinator *mediator, std::string id, int initialGuardsAvailable, bool weaponsDeployed)
-        : ResponseComponent(mediator, id), guardsAvailable(initialGuardsAvailable), weaponsDeployed(weaponsDeployed) {}
+    SecurityTeam(ResponseCoordinator *mediator, std::string id, bool weaponsDeployed, std::string loc)
+        : ResponseComponent(mediator, id), weaponsDeployed(weaponsDeployed), location(loc) {}
 
     ~SecurityTeam() override = default;
 

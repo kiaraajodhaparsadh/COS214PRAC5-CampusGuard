@@ -21,3 +21,22 @@ void OperatorConsole::executeCommand(ResponseAction *command)
         commandHistory.push_back(command);
     }
 }
+
+void OperatorConsole::undoLastCommand()
+{
+    if (commandHistory.empty())
+    {
+        std::cout << "[OperatorConsole] Error: No commands to undo.\n";
+        return;
+    }
+
+    std::cout << "[OperatorConsole] Initiating system undo sequence...\n";
+
+    ResponseAction *prevCommand = commandHistory.back();
+    prevCommand->undo();
+
+    // remove command from history.
+    // if we want to implement redo later, wi do not need to delete it here
+    commandHistory.pop_back();
+    delete prevCommand;
+}

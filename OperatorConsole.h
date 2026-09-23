@@ -12,4 +12,5 @@ public:
     ~OperatorConsole();
 
     void executeCommand(ResponseAction *command);
+    void undoLastCommand(); // witht the help of memento
 };

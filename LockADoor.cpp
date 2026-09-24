@@ -1,7 +1,7 @@
 #include "LockADoor.h"
 #include "ComponentStateMemento.h"
 
-LockADoor::LockADoor(FacilitiesControlService *receiver, std::string loc)
+LockADoor::LockADoor(AccessControlService *receiver, std::string loc)
     : receiver(receiver), location(loc), previousState(nullptr) {}
 
 LockADoor::~LockADoor()

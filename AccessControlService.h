@@ -5,13 +5,13 @@
 #include <string>
 #include <vector>
 #include <iostream>
-class FacilitiesControlService : public ResponseComponent
+class AccessControlService : public ResponseComponent
 {
 private:
     std::map<std::string, bool> facilityDoors; // true=locked
 
 public:
-    FacilitiesControlService(ResponseCoordinator *mediator, std::string id);
+    AccessControlService(ResponseCoordinator *mediator, std::string id);
 
     ~FacilitiesControlService() override = default;
 

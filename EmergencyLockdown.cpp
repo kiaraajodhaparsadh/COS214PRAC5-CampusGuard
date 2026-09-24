@@ -1,7 +1,7 @@
 #include "EmergencyLockdown.h"
 #include "ComponentStateMemento.h"
 
-EmergencyLockdown::EmergencyLockdown(FacilitiesControlService *receiver)
+EmergencyLockdown::EmergencyLockdown(AccessControlService *receiver)
     : receiver(receiver), previousState(nullptr) {}
 
 EmergencyLockdown::~EmergencyLockdown()

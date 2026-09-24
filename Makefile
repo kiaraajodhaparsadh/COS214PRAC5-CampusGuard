@@ -1,9 +1,9 @@
 CXX = g++
 CXXFLAGS = -std=c++11 -Wall -Wextra -g
 
-# EmergencyOperationsDesk.cpp is excluded on purpose - it's explicitly marked in
+# EmergencyOperationsDesk.cpp is excluded on purpose 
 # Once the facade + adapter are written, delete
-# this exclusion and rewrite EmergencyOperationsDesk.cpp against real classes.
+
 SRCS = $(filter-out EmergencyOperationsDesk.cpp, $(wildcard *.cpp))
 OBJS = $(SRCS:.cpp=.o)
 TARGET = campusguard

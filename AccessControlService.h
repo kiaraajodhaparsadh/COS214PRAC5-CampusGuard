@@ -13,7 +13,6 @@ private:
 public:
     AccessControlService(ResponseCoordinator *mediator, std::string id);
 
-    ~FacilitiesControlService() override = default;
 
     // declare these overrides so the class is no longer abstract
     void dispatch(std::string location) override;

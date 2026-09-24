@@ -23,26 +23,13 @@ void CommunicationService::broadcastMessage(std::string message)
     }
 }
 
-// so this is an example of how this can be used in mediator:
-/*void CampusControlRoom::notify(ResponseComponent *sender, std::string event)
-{
-    if (event == "MultiDoorLockdown")
-    {
-        // Facilities just locked down. Automatically tell Comms to announce it!
-        commsService->broadcastMessage("Campus is in full lockdown. Stay in your classrooms.");
-    }
-    else if (event == "WeaponsAuthorized")
-    {
-        commsService->broadcastMessage("Lethal force authorized on campus. Evacuate immediately.");
-    }
-}*/
-
 void CommunicationService::displayStatus()
 {
     const std::string MAGENTA = "\033[35m";
     const std::string RESET = "\033[0m";
 
-    std::string statusStr = (status == OperationalStatus::Active) ? "Transmitting" : "Standby";
+    std::string statusStr = (status == OperationalStatus::Idle) ? "Idle" : (status == OperationalStatus::Active) ? "Active"
+                                                                                                                  : "Offline";
 
     std::cout << MAGENTA << "=== [COMMUNICATIONS: " << componentID << "] ===" << RESET << "\n";
     std::cout << MAGENTA << " > Status: " << RESET << statusStr << "\n";
@@ -55,7 +42,6 @@ void CommunicationService::displayStatus()
     }
     else
     {
-        // Print the last few messages
         for (const std::string &msg : broadcastLog)
         {
             std::cout << "   - \"" << msg << "\"\n";
@@ -70,7 +56,6 @@ ComponentStateMemento *CommunicationService::createMemento()
 }
 void CommunicationService::restore(ComponentStateMemento *memento)
 {
-
     if (!memento)
     {
         return;
@@ -78,7 +63,6 @@ void CommunicationService::restore(ComponentStateMemento *memento)
 
     this->componentID = memento->componentID;
     this->status = memento->status;
-
     this->broadcastLog = memento->broadcastLog;
 
     std::cout

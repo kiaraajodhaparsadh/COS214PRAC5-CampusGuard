@@ -13,7 +13,7 @@ private:
 
 public:
     // passes mediator and ID up to the base class, and initializes personnel
-    MedicTeam(ResponseCoordinator *mediator, int nrMedics, int triageLevel std::string loc)
+    MedicTeam(ResponseCoordinator *mediator, std::string id, int nrMedics, int triageLevel, std::string loc)
         : ResponseComponent(mediator, id), medicsAvailable(nrMedics), triageLevel(triageLevel), location(loc) {}
 
     ~MedicTeam() override = default;
@@ -26,4 +26,7 @@ public:
 
     ComponentStateMemento *createMemento() override;
     void restore(ComponentStateMemento *memento) override;
+
+    // NEW: lets CampusControlRoom coordinate other colleagues around where medics went
+    std::string getLocation() const { return location; }
 };

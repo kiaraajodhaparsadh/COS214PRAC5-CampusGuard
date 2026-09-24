@@ -1,4 +1,5 @@
 // command participant
+#pragma once
 
 class ResponseAction
 {

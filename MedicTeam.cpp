@@ -1,7 +1,15 @@
 #include "MedicTeam.h"
+#include "ComponentState.h"
+#include "ComponentStateMemento.h"
 
 void MedicTeam::dispatch(std::string location)
 {
+    if (!state->canDispatch())
+    {
+        std::cout << this->componentID << " cannot be dispatched while " << getStatusName() << ".\n";
+        return;
+    }
+
     if (triageLevel < 3)
     {
         // just deploy one medic
@@ -23,16 +31,15 @@ void MedicTeam::dispatch(std::string location)
     else
     {
         // 5
-
         if (deployMedics(8) == false)
         {
             std::cout << this->componentID << " could not be dispatched. Command failed.\n";
             return;
         }
     }
-    // medics successfully dep.loyed
+    // medics successfully deployed
     this->location = location;
-    this->status = OperationalStatus::Active;
+    setState(ActiveState::instance());
 
     // notify mediator
     // rubric requrement: mediator coordination
@@ -48,7 +55,7 @@ bool MedicTeam::deployMedics(int medics)
     {
         std::cout << "NO MORE MEDICS AVAILABLE!! Call reinforcements. " << this->componentID << " is now OFFLINE.\n";
 
-        this->status = OperationalStatus::Offline;
+        setState(OfflineState::instance());
         return false;
     }
     else if (medicsAvailable - medics < 0)
@@ -67,30 +74,16 @@ void MedicTeam::displayStatus()
     const std::string RED = "\033[31m";
     const std::string RESET = "\033[0m";
 
-    std::string statusStr;
-    switch (status)
-    {
-    case OperationalStatus::Idle:
-        statusStr = "Idle";
-        break;
-    case OperationalStatus::Active:
-        statusStr = "Active/Deployed";
-        break;
-    case OperationalStatus::Offline:
-        statusStr = "Offline (Depleted)";
-        break;
-    }
-
     std::cout << RED << "=== [MEDICS: " << componentID << "] ===" << RESET << "\n";
     std::cout << RED << " > Location:         " << RESET << (location.empty() ? "Medical Bay" : location) << "\n";
-    std::cout << RED << " > Status:           " << RESET << statusStr << "\n";
+    std::cout << RED << " > Status:           " << RESET << getStatusName() << "\n";
     std::cout << RED << " > Medics Available: " << RESET << medicsAvailable << "\n";
     std::cout << RED << " > Triage Level:     " << RESET << triageLevel << "\n";
     std::cout << RED << "=============================" << RESET << "\n\n";
 }
 ComponentStateMemento *MedicTeam::createMemento()
 {
-    return new ComponentStateMemento(componentID, status, location, medicsAvailable, triageLevel);
+    return new ComponentStateMemento(componentID, getStatusEnum(), location, medicsAvailable, triageLevel);
 }
 
 void MedicTeam::restore(ComponentStateMemento *memento)
@@ -101,7 +94,7 @@ void MedicTeam::restore(ComponentStateMemento *memento)
     }
 
     this->componentID = memento->componentID;
-    this->status = memento->status;
+    setState(ComponentState::fromEnum(memento->status));
     this->location = memento->location;
 
     this->medicsAvailable = memento->medicsAvailable;

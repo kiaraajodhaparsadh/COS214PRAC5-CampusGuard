@@ -1,4 +1,5 @@
 #include "FacilitiesControlService.h"
+#include "ComponentStateMemento.h"
 
 FacilitiesControlService::FacilitiesControlService(ResponseCoordinator *mediator, std::string id)
     : ResponseComponent(mediator, id)

@@ -1,4 +1,5 @@
 #include "CommunicationService.h"
+#include "ComponentStateMemento.h"
 
 CommunicationService::CommunicationService(ResponseCoordinator *mediator, std::string id)
     : ResponseComponent(mediator, id) {}

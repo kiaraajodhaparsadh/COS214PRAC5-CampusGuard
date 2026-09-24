@@ -1,6 +1,6 @@
-#include "FacilitiesControlService.h"
+#include "AccessControlService.h"
 
-FacilitiesControlService::FacilitiesControlService(ResponseCoordinator *mediator, std::string id)
+AccessControlService::AccessControlService(ResponseCoordinator *mediator, std::string id)
     : ResponseComponent(mediator, id)
 {
     // default campus doors is unlocked (false)
@@ -8,7 +8,7 @@ FacilitiesControlService::FacilitiesControlService(ResponseCoordinator *mediator
     facilityDoors["Library"] = false;
 }
 
-void FacilitiesControlService::dispatch(std::string location)
+void AccessControlService::dispatch(std::string location)
 {
     // only locks down one zone
     facilityDoors[location] = true;
@@ -20,7 +20,7 @@ void FacilitiesControlService::dispatch(std::string location)
     }
 }
 
-void FacilitiesControlService::lockdownDoors()
+void AccessControlService::lockdownDoors()
 {
     // lockdownall doors
     for (auto &door : facilityDoors)
@@ -36,7 +36,7 @@ void FacilitiesControlService::lockdownDoors()
     }
 }
 
-void FacilitiesControlService::addZone(std::string zoneName)
+void AccessControlService::addZone(std::string zoneName)
 {
     // is zone already in the map
     if (facilityDoors.find(zoneName) == facilityDoors.end())
@@ -50,7 +50,7 @@ void FacilitiesControlService::addZone(std::string zoneName)
     }
 }
 
-void FacilitiesControlService::displayStatus()
+void AccessControlService::displayStatus()
 {
     const std::string YELLOW = "\033[33m";
     const std::string RESET = "\033[0m";
@@ -70,12 +70,12 @@ void FacilitiesControlService::displayStatus()
     std::cout << YELLOW << "=================================" << RESET << "\n\n";
 }
 
-ComponentStateMemento *FacilitiesControlService::createMemento()
+ComponentStateMemento *AccessControlService::createMemento()
 {
     return new ComponentStateMemento(this->componentID, this->status, this->facilityDoors);
 }
 
-void FacilitiesControlService::restore(ComponentStateMemento *memento)
+void AccessControlService::restore(ComponentStateMemento *memento)
 {
     if (!memento)
     {
@@ -86,5 +86,5 @@ void FacilitiesControlService::restore(ComponentStateMemento *memento)
     this->status = memento->status;
     this->facilityDoors = memento->facilityDoors;
 
-    std::cout << "[FacilitiesControlService: " + componentID + " ] Reverted to previous state successfully. The previous state of the doors is restored. \n";
+    std::cout << "[AccessControlService: " + componentID + " ] Reverted to previous state successfully. The previous state of the doors is restored. \n";
 }

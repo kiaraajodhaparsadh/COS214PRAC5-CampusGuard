@@ -2,7 +2,7 @@
 
 #pragma once
 #include "ResponseAction.h" // command interface
-#include "FacilitiesControlService.h"
+#include "AccessControlService.h"
 #include <string>
 
 class ResponseComponent; // recievers
@@ -11,12 +11,12 @@ class LockADoor : public ResponseAction
 {
 
 protected:
-    FacilitiesControlService *receiver;
+    AccessControlService *receiver;
     std::string location;
     ComponentStateMemento *previousState;
 
 public:
-    LockADoor(FacilitiesControlService *receiver, std::string loc);
+    LockADoor(AccessControlService *receiver, std::string loc);
     ~LockADoor() override;
 
     void execute() override;

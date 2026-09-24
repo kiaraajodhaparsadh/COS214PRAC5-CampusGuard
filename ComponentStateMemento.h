@@ -5,7 +5,7 @@
 #include "ResponseComponent.h" // Needed for OperationalStatus enum
 
 // recievers or originators
-class FacilitiesControlService;
+class AccessControlService;
 class MedicTeam;
 class SecurityTeam;
 class CommunicationService;
@@ -21,7 +21,7 @@ private:
     std::string location;
 
     // Subsystem-specific state
-    std::map<std::string, bool> facilityDoors; // FacilitiesControlService
+    std::map<std::string, bool> facilityDoors; // AccessControlService
     int medicsAvailable;                       // MedicTeam
     int triageLevel;                           // MedicTeam
     bool weaponsDeployed;                      // SecurityTeam
@@ -35,7 +35,7 @@ private:
     ComponentStateMemento(std::string id, OperationalStatus status, const std::vector<std::string> &logs);
 
     // wide interface, only allow originators to access private fields
-    friend class FacilitiesControlService;
+    friend class AccessControlService;
     friend class MedicTeam;
     friend class SecurityTeam;
     friend class CommunicationService;

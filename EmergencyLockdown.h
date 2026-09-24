@@ -2,7 +2,7 @@
 
 #pragma once
 #include "ResponseAction.h" // command interface
-#include "FacilitiesControlService.h"
+#include "AccessControlService.h"
 #include <string>
 
 class ResponseComponent; // recievers
@@ -11,10 +11,10 @@ class EmergencyLockdown : public ResponseAction
 {
 
 protected:
-    FacilitiesControlService *receiver;   // Point directly to MedicTeam instead of the base
+    AccessControlService *receiver;
     ComponentStateMemento *previousState; // stores the snapshot
 public:
-    EmergencyLockdown(FacilitiesControlService *receiver);
+    EmergencyLockdown(AccessControlService *receiver);
     ~EmergencyLockdown() override;
 
     void execute() override;

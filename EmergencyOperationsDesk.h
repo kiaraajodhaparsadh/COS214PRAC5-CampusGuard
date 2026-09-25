@@ -1,4 +1,7 @@
 // client of command and adapter, facade of the facade
+#ifndef EMERGENCY_OPERATIONS_DESK_H
+#define EMERGENCY_OPERATIONS_DESK_H
+
 #pragma once
 #include "ResponseCoordinator.h"
 #include "OperatorConsole.h"
@@ -17,7 +20,7 @@ private:
     ResponseComponent *accessControl;
 
     // adapter
-    ExternalAssistanceService *municipalAdapter;
+    ExternalAssistanceService *municipalAdapter; //target - facade is the client here
 
 public:
     EmergencyOperationsDesk();
@@ -25,4 +28,9 @@ public:
 
     // multi-step facade workflow required by the rubric:
     void triggerCampusLockdown();
+
+    //facade + adapter working together
+    void escalateOffCampus(std::string incidentId, std::string incidentType, std::string areaName);
 };
+
+#endif

@@ -13,12 +13,10 @@ private:
 public:
     AccessControlService(ResponseCoordinator *mediator, std::string id);
 
-    ~AccessControlService() override = default;
 
     // declare these overrides so the class is no longer abstract
     void dispatch(std::string location) override;
     void displayStatus() override;
-    void unlockDoors(std::string location);
 
     ComponentStateMemento *createMemento() override;
     void restore(ComponentStateMemento *memento) override;

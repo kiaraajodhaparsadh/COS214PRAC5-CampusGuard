@@ -1,5 +1,6 @@
 #include "DispatchSecurity.h"
 #include "SecurityTeam.h"
+#include "ComponentStateMemento.h"
 
 DispatchSecurity::DispatchSecurity(SecurityTeam *receiver, std::string location)
     : receiver(receiver), location(location), previousState(nullptr) {}

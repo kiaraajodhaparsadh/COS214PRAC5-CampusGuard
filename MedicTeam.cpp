@@ -1,7 +1,14 @@
 #include "MedicTeam.h"
+#include "ComponentStateMemento.h"
 
 void MedicTeam::dispatch(std::string location)
 {
+    if (status == OperationalStatus::Offline)
+    {
+        std::cout << this->componentID << " cannot be dispatched while Offline.\n";
+        return;
+    }
+
     if (triageLevel < 3)
     {
         // just deploy one medic
@@ -23,14 +30,13 @@ void MedicTeam::dispatch(std::string location)
     else
     {
         // 5
-
         if (deployMedics(8) == false)
         {
             std::cout << this->componentID << " could not be dispatched. Command failed.\n";
             return;
         }
     }
-    // medics successfully dep.loyed
+    // medics successfully deployed
     this->location = location;
     this->status = OperationalStatus::Active;
 
@@ -67,19 +73,8 @@ void MedicTeam::displayStatus()
     const std::string RED = "\033[31m";
     const std::string RESET = "\033[0m";
 
-    std::string statusStr;
-    switch (status)
-    {
-    case OperationalStatus::Idle:
-        statusStr = "Idle";
-        break;
-    case OperationalStatus::Active:
-        statusStr = "Active/Deployed";
-        break;
-    case OperationalStatus::Offline:
-        statusStr = "Offline (Depleted)";
-        break;
-    }
+    std::string statusStr = (status == OperationalStatus::Idle) ? "Idle" : (status == OperationalStatus::Active) ? "Active"
+                                                                                                                  : "Offline";
 
     std::cout << RED << "=== [MEDICS: " << componentID << "] ===" << RESET << "\n";
     std::cout << RED << " > Location:         " << RESET << (location.empty() ? "Medical Bay" : location) << "\n";

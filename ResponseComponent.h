@@ -17,7 +17,11 @@ protected:
     ResponseCoordinator *mediator; // every collegue knows the mediator
     std::string componentID;       // like a unique name or id(MainGates, SecurityTeam1, ect)
 
-    OperationalStatus status; // enum for their state
+    OperationalStatus status; // plain domain flag - NOT the GoF State pattern in this
+                               // design. That role now belongs to IncidentState. This
+                               // stays a simple enum because "can a depleted MedicTeam
+                               // be redispatched" is a real check worth keeping, it just
+                               // isn't a second State pattern instance.
 public:
     ResponseComponent(ResponseCoordinator *mediator, std::string id)
         : mediator(mediator), componentID(id), status(OperationalStatus::Idle) {}

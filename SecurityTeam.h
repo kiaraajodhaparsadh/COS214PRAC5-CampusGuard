@@ -23,4 +23,7 @@ public:
     void displayStatus() override;
     ComponentStateMemento *createMemento() override;
     void restore(ComponentStateMemento *memento) override;
+
+    // NEW: lets CampusControlRoom coordinate other colleagues around where security went
+    std::string getLocation() const { return location; }
 };

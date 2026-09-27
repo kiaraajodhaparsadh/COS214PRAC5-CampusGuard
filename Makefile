@@ -5,6 +5,8 @@ SRCS = $(wildcard *.cpp)
 OBJS = $(SRCS:.cpp=.o)
 TARGET = campusguard
 
+all: $(TARGET)
+
 $(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
 
@@ -12,6 +14,6 @@ $(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -f $(OBJS) $(TARGET) *.o
 
-.PHONY: clean
+.PHONY: all clean

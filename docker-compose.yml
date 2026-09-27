@@ -1,0 +1,9 @@
+
+services:
+  campusguard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: campusguard-container
+    stdin_open: true
+    tty: true

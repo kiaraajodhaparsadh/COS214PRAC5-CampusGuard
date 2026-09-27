@@ -1,9 +1,11 @@
+#pragma once
 #include "ResponseCoordinator.h"
 
 // forward declarations only - CampusControlRoom.cpp includes the real headers
 class SecurityTeam;
 class MedicTeam;
 class FacilitiesTeam;
+class AccessControlService;
 class CommunicationService;
 class Incident;
 
@@ -29,6 +31,7 @@ private:
     SecurityTeam *securityTeam;
     MedicTeam *medicTeam;
     FacilitiesTeam *facilitiesTeam;
+    AccessControlService *accessControl;
     CommunicationService *comms;
     Incident *incident;
 
@@ -40,6 +43,7 @@ public:
     void registerSecurity(SecurityTeam *team);
     void registerMedic(MedicTeam *team);
     void registerFacilities(FacilitiesTeam *team);
+    void registerAccessControl(AccessControlService *service);
     void registerComms(CommunicationService *service);
     void registerIncident(Incident *activeIncident);
 

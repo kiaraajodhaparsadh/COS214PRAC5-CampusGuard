@@ -1,4 +1,5 @@
 #include "AccessControlService.h"
+#include "ComponentStateMemento.h"
 
 AccessControlService::AccessControlService(ResponseCoordinator *mediator, std::string id)
     : ResponseComponent(mediator, id)
@@ -57,7 +58,7 @@ void AccessControlService::displayStatus()
 
     std::string statusStr = (status == OperationalStatus::Active) ? "Active/Lockdown" : "Idle/Normal";
 
-    std::cout << YELLOW << "=== [FACILITIES: " << componentID << "] ===" << RESET << "\n";
+    std::cout << YELLOW << "=== [ACCESS CONTROL: " << componentID << "] ===" << RESET << "\n";
     std::cout << YELLOW << " > Status: " << RESET << statusStr << "\n";
     std::cout << YELLOW << " > Door States:\n"
               << RESET;

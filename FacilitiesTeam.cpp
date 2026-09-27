@@ -62,8 +62,8 @@ void FacilitiesTeam::restore(ComponentStateMemento *memento)
     //  FacilitiesTeam is a it, it can directly read the private fields of the memento
     this->componentID = memento->componentID;
     this->status = memento->status;
-    this->availableMaintenanceCrews = memento->availableCrews;
-    this->isolatedUtilities = memento->utilStates;
+    this->availableMaintenanceCrews = memento->availableMaintenanceCrews;
+    this->isolatedUtilities = memento->isolatedUtilities;
 
     std::cout << "[FacilitiesTeam] State reverted to snapshot successfully. Status, availableMaintenanceCrews and utilities updated.\n";
 }

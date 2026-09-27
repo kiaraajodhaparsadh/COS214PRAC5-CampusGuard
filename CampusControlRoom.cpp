@@ -2,6 +2,7 @@
 #include "SecurityTeam.h"
 #include "MedicTeam.h"
 #include "FacilitiesTeam.h"
+#include "AccessControlService.h"
 #include "CommunicationService.h"
 #include "Incident.h"
 #include <iostream>
@@ -10,6 +11,7 @@ CampusControlRoom::CampusControlRoom()
     : securityTeam(nullptr),
       medicTeam(nullptr),
       facilitiesTeam(nullptr),
+      accessControl(nullptr),
       comms(nullptr),
       incident(nullptr)
 {
@@ -28,6 +30,11 @@ void CampusControlRoom::registerMedic(MedicTeam *team)
 void CampusControlRoom::registerFacilities(FacilitiesTeam *team)
 {
     facilitiesTeam = team;
+}
+
+void CampusControlRoom::registerAccessControl(AccessControlService *service)
+{
+    accessControl = service;
 }
 
 void CampusControlRoom::registerComms(CommunicationService *service)
@@ -70,11 +77,15 @@ void CampusControlRoom::notify(ResponseComponent *sender, std::string event)
         }
 
         std::cout << "[CampusControlRoom] Security dispatched -> "
-                     "coordinating facilities and comms.\n";
+                     "coordinating access control and comms.\n";
 
-        if (facilitiesTeam)
+        // Locking the specific area is AccessControlService's job, not
+        // FacilitiesTeam's (FacilitiesTeam sends maintenance crews, it
+        // doesn't touch doors) - this is the fan-out that was previously
+        // pointed at the wrong colleague after the two classes were split.
+        if (accessControl)
         {
-            facilitiesTeam->dispatch(securityTeam->getLocation());
+            accessControl->dispatch(securityTeam->getLocation());
         }
 
         if (comms)
@@ -105,7 +116,7 @@ void CampusControlRoom::notify(ResponseComponent *sender, std::string event)
                 medicTeam->getLocation() + ".");
         }
     }
-    else if (sender == facilitiesTeam && event == "LockdownAllDoors")
+    else if (sender == accessControl && event == "LockdownAllDoors")
     {
         if (incident && !incident->contain())
         {
@@ -123,12 +134,24 @@ void CampusControlRoom::notify(ResponseComponent *sender, std::string event)
                 "Campus is in full lockdown. Remain where you are.");
         }
     }
-    else if (sender == facilitiesTeam && event == "SingleDoorLocked")
+    else if (sender == accessControl && event == "SingleDoorLocked")
     {
         // A localised lock does not need a campus-wide announcement,
         // and it does not move the incident lifecycle forward.
         std::cout << "[CampusControlRoom] Noted: a single access "
                      "point was secured.\n";
+    }
+    else if (sender == facilitiesTeam && event == "UtilitiesIsolated")
+    {
+        // Cutting gas/power somewhere is worth telling the campus about,
+        // but on its own it doesn't change the incident's lifecycle -
+        // it's a supporting action, not containment or dispatch.
+        std::cout << "[CampusControlRoom] Utilities isolated -> notifying campus.\n";
+
+        if (comms)
+        {
+            comms->broadcastMessage("Utilities have been shut off in an affected area for safety.");
+        }
     }
     else if (sender == comms && event == "MessageBroadcasted")
     {

@@ -2,7 +2,7 @@
 #ifndef EMERGENCY_OPERATIONS_DESK_H
 #define EMERGENCY_OPERATIONS_DESK_H
 
-#include "CampusControlRoom.h" // the concrete mediator - see note below
+#include "CampusControlRoom.h" // the concrete mediator
 #include "OperatorConsole.h"
 #include "ExternalAssistanceService.h" //adapter target interface
 

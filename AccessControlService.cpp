@@ -1,5 +1,4 @@
 #include "AccessControlService.h"
-#include "ComponentStateMemento.h"
 
 AccessControlService::AccessControlService(ResponseCoordinator *mediator, std::string id)
     : ResponseComponent(mediator, id)
@@ -58,7 +57,7 @@ void AccessControlService::displayStatus()
 
     std::string statusStr = (status == OperationalStatus::Active) ? "Active/Lockdown" : "Idle/Normal";
 
-    std::cout << YELLOW << "=== [ACCESS CONTROL: " << componentID << "] ===" << RESET << "\n";
+    std::cout << YELLOW << "=== [FACILITIES: " << componentID << "] ===" << RESET << "\n";
     std::cout << YELLOW << " > Status: " << RESET << statusStr << "\n";
     std::cout << YELLOW << " > Door States:\n"
               << RESET;
@@ -69,27 +68,6 @@ void AccessControlService::displayStatus()
                   << (pair.second ? "LOCKED" : "Unlocked") << "\n";
     }
     std::cout << YELLOW << "=================================" << RESET << "\n\n";
-}
-
-void AccessControlService::unlockDoors(std::string location)
-{
-    // check if the zone exists, then unlock it (false)
-    if (facilityDoors.find(location) != facilityDoors.end())
-    {
-        facilityDoors[location] = false;
-        this->status = OperationalStatus::Active;
-
-        if (mediator)
-        {
-            mediator->notify(this, "DoorsUnlockedForEvacuation");
-        }
-
-        std::cout << "[Facilities] Doors forcibly unlocked for evacuation at: " << location << "\n";
-    }
-    else
-    {
-        std::cout << "[Facilities] Error: Cannot evacuate, zone '" << location << "' not found.\n";
-    }
 }
 
 ComponentStateMemento *AccessControlService::createMemento()

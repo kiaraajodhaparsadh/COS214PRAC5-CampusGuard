@@ -28,6 +28,8 @@
 #include "Incident.h"
 #include "EmergencyOperationsDesk.h"
 #include <iostream>
+#include "EvacuateZoneCommand.h"
+#include "EmergencyLockdown.h"
 
 // ---------------------------------------------------------------- helpers
 static void banner(const std::string &title)

@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 #include <iostream>
+
+#include "ComponentStateMemento.h"
 class AccessControlService : public ResponseComponent
 {
 private:
@@ -12,7 +14,6 @@ private:
 
 public:
     AccessControlService(ResponseCoordinator *mediator, std::string id);
-
 
     // declare these overrides so the class is no longer abstract
     void dispatch(std::string location) override;
@@ -23,6 +24,7 @@ public:
 
     // add a new zone
     void addZone(std::string zoneName);
+    void unlockDoors(std::string location);
 
     void lockdownDoors();
 };

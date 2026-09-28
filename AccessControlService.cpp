@@ -70,27 +70,6 @@ void AccessControlService::displayStatus()
     std::cout << YELLOW << "=================================" << RESET << "\n\n";
 }
 
-void AccessControlService::unlockDoors(std::string location)
-{
-    // check if the zone exists, then unlock it (false)
-    if (facilityDoors.find(location) != facilityDoors.end())
-    {
-        facilityDoors[location] = false;
-        this->status = OperationalStatus::Active;
-
-        if (mediator)
-        {
-            mediator->notify(this, "DoorsUnlockedForEvacuation");
-        }
-
-        std::cout << "[Facilities] Doors forcibly unlocked for evacuation at: " << location << "\n";
-    }
-    else
-    {
-        std::cout << "[Facilities] Error: Cannot evacuate, zone '" << location << "' not found.\n";
-    }
-}
-
 ComponentStateMemento *AccessControlService::createMemento()
 {
     return new ComponentStateMemento(this->componentID, this->status, this->facilityDoors);

@@ -4,7 +4,7 @@
 //     Facade, Command, Mediator, State, Memento (undo) and Adapter
 //     - all six patterns in one execution flow.
 //
-// Story 2 (minor gas leak, wired by hand - no Facade):
+// Story 2 (minor gas leak, no Facade):
 //     Command, Mediator, State, Memento, with the incident driven through
 //     its whole lifecycle. Because it bypasses the Facade it also shows the
 //     subsystems remain independently usable.
